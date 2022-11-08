@@ -5,7 +5,7 @@ info:
   version: 1.0.0
   
 security:
-   - bearerAuth: []
+  - bearerAuth: []
   
 paths:
   
@@ -17,6 +17,33 @@ paths:
         Lists Forecast allocations
       tags:
         - Allocations
+      parameters:
+        - name: personId
+          required: false
+          in: query
+          description: Retrieve allocations for person
+          schema:
+            type: integer
+        - name: projectId
+          required: false
+          in: query
+          description: Retrieve allocations for project
+          schema:
+            type: integer
+        - name: startDate
+          required: false
+          in: query
+          description: Retrieve allocations after given date
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          required: false
+          in: query
+          description: Retrieve allocations before given date
+          schema:
+            type: string
+            format: date
       responses:
         "200":
           description: A list of Forecast allocations
@@ -35,6 +62,21 @@ paths:
         Lists Forecast projects
       tags:
         - Projects
+      parameters:
+        - name: startDate
+          required: false
+          in: query
+          description: Retrieve allocations after given date
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          required: false
+          in: query
+          description: Retrieve allocations before given date
+          schema:
+            type: string
+            format: date
       responses:
         "200":
           description: A list of Forecast projects
@@ -44,34 +86,82 @@ paths:
                 type: array
                 items: 
                   $ref: "#/components/schemas/Projects"
-  
-  "/tasks/{projectId}":
+                  
+  "/projects/{projectId}/sprints":
     get:
-      operationId: listProjectTasks
-      summary: Lists Forecast project tasks
+      operationId: listProjectSprints
+      summary: List project sprints
       description: |
-        Lists Forecast project tasks
+        Lists Forecast project sprint
       tags:
-        - Tasks
+        - projectSprints
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        description: Forecast project id
+        schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of project sprints
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sprints"
+  
+  "/tasks":
+    get:
+      operationId: listTasks
+      summary: Lists Forecast tasks
+      description: |
+        Lists Forecast tasks
+      tags:
+        - ProjectTasks
       parameters:
         - name: projectId
-          required: true
-          in: path
+          required: false
+          in: query
           description: Forecast project id
           schema:
             type: integer
       responses:
         "200":
-          description: A list of Forecast project tasks
+          description: A list of Forecast tasks
           content:
             application/json;charset=utf-8:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/Tasks"
-  
-   
 
+  "/timeEntries":
+    get:
+      operationId: listTimeEntries
+      summary: List time entries
+      description: |
+        Lists Forecast project time entries
+      tags:
+        - timeEntries
+      parameters:
+      - name: projectId
+        required: true
+        in: query
+        description: Forecast project id
+        schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of time entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimeEntries"
+  
 components:
       
   securitySchemes:
@@ -81,9 +171,10 @@ components:
       bearerFormat: JWT
       
   schemas:
+      
     Allocations:
       type: object
-      description: Allocation data from Forecast Api
+      description: Allocation data from Forecast API
       properties:
         id:
           type: integer
@@ -128,8 +219,6 @@ components:
         endDate:
           type: string
           format: date
-        status:
-          type: string
           
     Tasks:
       type: object
@@ -141,7 +230,7 @@ components:
           type: string
         description:
           type: string
-        project_id:
+        projectId:
           type: integer
         remaining:
           type: integer
@@ -153,7 +242,39 @@ components:
         endDate:
           type: string
           format: date
+        highPriority:
+          type: boolean
         assignedPersons:
           type: array
           items: 
             type: integer
+            
+    Sprints:
+      type: object
+      description: Project sprint data from Forecast API
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        startDate: 
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+          
+    TimeEntries:
+      type: object
+      description: Project time entries from Forecast API
+      properties:
+        id: 
+          type: integer
+        person:
+          type: integer
+        project:
+          type: integer
+        task:
+          type: integer
+        timeRegistered:
+          type: integer
