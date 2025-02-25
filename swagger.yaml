@@ -1306,7 +1306,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/usersWithSkills":
+  "/usersSkills":
     get:
       operationId: listUsersWithSkills
       summary: List Users with skills
@@ -1321,7 +1321,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/UserWithSkills"
+                  $ref: "#/components/schemas/UserSkills"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1340,14 +1340,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserWithSkills"
+              $ref: "#/components/schemas/UserSkills"
       responses:
         "201":
           description: created a new User with skills
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserWithSkills"
+                $ref: "#/components/schemas/UserSkills"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1355,7 +1355,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/usersWithSkills/{id}":
+  "/usersSkills/{id}":
     get:
       operationId: findUserWithSkills
       summary: Finds a User with skills
@@ -1376,7 +1376,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserWithSkills"
+                $ref: "#/components/schemas/UserSkills"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -1403,14 +1403,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserWithSkills"
+              $ref: "#/components/schemas/UserSkills"
       responses:
         "200":
-          description: Created a new User with skills
+          description: Update a new User with skills
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserWithSkills"
+                $ref: "#/components/schemas/UserSkills"
         "default":
           description: Invalid request was sent to the server.
           content:
@@ -2106,14 +2106,14 @@ components:
         name:
           type: string
           description: Name of the skill
-        years:
+        months:
           type: number
-          description: Number of years of experience
+          description: Number of months of experience
         category:
           type: string
           description: Category of the skill
 
-    UserWithSkills:
+    UserSkills:
       type: object
       description: A user entity with skills attribute
       required:
