@@ -426,7 +426,7 @@ paths:
         Retrieve flextime data for users who have opted in to Severa integration.
         This endpoint is protected and can only be used by Admin users.
       tags:
-        - Severa
+        - FlexTime
       responses:
         "200":
           description: List of users with their flextime data
@@ -731,7 +731,7 @@ paths:
       summary: Get all the phases for project
       description: Retrieve all the phases for a particular project with given ID.
       tags:
-        - Severa
+        - Phases
       parameters:
         - name: severaProjectId
           in: path
@@ -761,7 +761,7 @@ paths:
       summary: Get all resource allocations
       description: Retrieve all resource allocations
       tags:
-        - Severa
+        - ResourceAllocations
       parameters:
         - name: severaUserId
           required: false
@@ -791,7 +791,7 @@ paths:
       summary: Get all the work hours
       description: Retrieve all the work hours.
       tags:
-        - Severa
+        - WorkHours
       parameters:
         - name: severaUserId
           required: false
