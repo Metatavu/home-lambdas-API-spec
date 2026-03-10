@@ -774,9 +774,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/users/{userId}/job-description":
+  "/users/{userId}/job-descriptions":
     put:
-      operationId: updateUserJobDescription
+      operationId: updateUserJobDescriptions
       summary: Update user job description roles
       description: Updates the user's self-selected job description roles stored as a Keycloak attribute.
       tags:
@@ -796,7 +796,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateUserJobDescriptionRequest"
+              $ref: "#/components/schemas/UpdateUserJobDescriptionsRequest"
       responses:
         "200":
           description: Job description roles updated successfully.
@@ -813,8 +813,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        "default":
-          description: Invalid request was sent to the server.
+        "401":
+          description: Unauthorized. Missing or invalid authentication token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden. The authenticated user does not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error.
           content:
             application/json:
               schema:
@@ -2441,7 +2453,7 @@ components:
         - MANAGEMENT
         - TRAINEE
 
-    UpdateUserJobDescriptionRequest:
+    UpdateUserJobDescriptionsRequest:
       type: object
       description: Request body for updating user job description roles.
       required:
