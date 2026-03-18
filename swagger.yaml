@@ -12,9 +12,13 @@ paths:
     get:
       operationId: getSlackUserAvatarByEmail
       summary: Get user's slack avatar by email
-      description: Fetches user's avatar from Slack by email
+      description: |
+        Fetches user's avatar from Slack by email
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Slack
+      x-status: inactive
       parameters:
         - name: email
           in: query
@@ -596,9 +600,13 @@ paths:
     get:
       operationId: listUsers
       summary: Get list of keycloak users.
-      description: Get list of keycloak users.
+      description: |
+        Get list of keycloak users.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       responses:
         "200":
           description: Get list of keycloak users
@@ -702,9 +710,13 @@ paths:
     get:
       operationId: findUser
       summary: Find user by keycloak id
-      description: Finds user by keycloak id in keycloak.
+      description: |
+        Finds user by keycloak id in keycloak.
+
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
       tags:
         - Users
+      x-status: inactive
       parameters:
         - name: userId
           in: path
