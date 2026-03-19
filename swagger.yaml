@@ -823,6 +823,3244 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  openapi: 3.0.3
+info:
+  title: Metatavu Home lambdas
+  description: Metatavu Home lambdas
+  version: 1.0.0
+
+security:
+  - bearerAuth: []
+
+paths:
+  "/slack-avatar":
+    get:
+      operationId: getSlackUserAvatarByEmail
+      summary: Get user's slack avatar by email
+      description: Fetches user's avatar from Slack by email
+      tags:
+        - Slack
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns the user's Slack avatar URL or error information if unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlackAvatarResponse'
+
+  "/pipedrive/salesLeads":
+    get:
+      operationId: listSalesLeads
+      summary: Lists all Leads from Pipedrive
+      description: |
+        Lists Leads from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      tags:
+        - Pipedrive
+      responses:
+        "200":
+          description: Lists Leads from Pipedrive
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lead"
+
+  "/pipedrive/salesDeals/{status}":
+    get:
+      operationId: listSalesDeals
+      summary: Lists all Deals from Pipedrive
+      description: |
+        Lists open Deals from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      tags:
+        - Pipedrive
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Pipedrive Deal status
+      responses:
+        "200":
+          description: Lists Deals from Pipedrive
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Deal"
+
+  "/pipedrive/getLeadById/{leadId}":
+    get:
+      operationId: getLeadById
+      summary: List lead data by id from Pipedrive
+      tags:
+        - Pipedrive
+      description: |
+        Get more data of a lead by id from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Lead Id used to identify a pipedrive lead
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lead"
+
+  "/pipedrive/getDealById/{dealId}":
+    get:
+      operationId: getDealById
+      summary: List deal data by id from Pipedrive
+      tags:
+        - Pipedrive
+      description: |
+        Get more data of a deal by id from Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Deal Id used to identify a pipedrive deal
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Deal"
+
+  "/pipedrive/addDealInterest/{dealId}":
+    put:
+      summary: Add interest to a Pipedrive deal
+      description: |
+        Updates string where deal interests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      tags:
+        - Pipedrive
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Deal Id used to identify a deal where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
+
+  "/pipedrive/addLeadInterest/{leadId}":
+    patch:
+      summary: Add interest to a Pipedrive lead
+      description: |
+        Updates string where lead interests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      tags:
+        - Pipedrive
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: LeadId used to identify a lead where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
+
+  "/pipedrive/removeDealInterest/{dealId}":
+    put:
+      summary: Remove interest to a Pipedrive deal
+      description: |
+        Updates string where intrests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      tags:
+        - Pipedrive
+      parameters:
+        - name: dealId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Deal Id used to identify a deal where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
+
+  "/pipedrive/removeLeadInterest/{leadId}":
+    patch:
+      summary: Remove interest to a Pipedrive lead
+      description: |
+        Updates string where intrests are stored in Pipedrive
+         
+        **This endpoint is deprecated and will be removed in a future version.**
+      deprecated: true
+      tags:
+        - Pipedrive
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: LeadId used to identify a lead where the interest is updated
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interest"
+
+  "/on-call":
+    get:
+      operationId: listOnCallData
+      summary: Lists on call personnel data from DynamoDB
+      description: Lists on call personnel data from DynamoDB for a given year.
+      tags:
+        - On call
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Selected year for on call entries
+      responses:
+        "200":
+          description: A list of on call personnel for a selected year
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OnCall"
+        "204":
+          description: No on-call data found for the selected year
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: No content
+        "400":
+          description: Missing or invalid year parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "default":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/update-paid":
+    post:
+      operationId: updatePaid
+      summary: Updates payment status for an on call period
+      description: Updates the paid status for a specific on-call week and year.
+      tags:
+        - On call
+      requestBody:
+        description: On-call week status to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OnCallPaid"
+      responses:
+        "200":
+          description: Paid status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Paid status updated
+        "400":
+          description: Invalid request (invalid year, week, or paid status)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: On-call entry not found for the specified year and week
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "default":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  "/on-call/import-json":
+    post:
+      operationId: importOnCallJson
+      summary: Import on-call data from JSON
+      description: |
+        Imports on-call data (week number and username) into DynamoDB for the specified year.
+        The year must be provided as a query parameter (`year`). Each imported record will include the year, week, and username.
+        Only admin users are allowed to use this endpoint.
+      tags:
+        - On call
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Year for the on-call entries to be created (e.g. 2025)
+      requestBody:
+        description: Array of on-call entries to import
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - Week
+                  - Person
+                properties:
+                  Week:
+                    type: integer
+                    description: Week number for the on-call entry (1-52)
+                  Person:
+                    type: string
+                    description: Username for the on-call entry
+      responses:
+        "200":
+          description: All entries imported successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: integer
+                    description: Number of imported entries
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entry:
+                          type: object
+                          description: The entry that failed to import
+                        error:
+                          type: string
+                          description: Error message
+        "207":
+          description: Some entries failed to import
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: integer
+                    description: Number of successfully imported entries
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entry:
+                          type: object
+                          description: The entry that failed to import
+                        error:
+                          type: string
+                          description: Error message
+        "400":
+          description: Invalid request (missing or invalid year, invalid JSON, or body is not an array)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Access denied. Admin privileges required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/software":
+    get:
+      operationId: listSoftware
+      summary: Get all software entries
+      description: Retrieve a list of all software entries in the registry.
+      tags:
+        - Software
+      responses:
+        "200":
+          description: A list of software entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SoftwareRegistry"
+
+    post:
+      operationId: createSoftware
+      summary: Register new software
+      description: Register a new software entry in the registry.
+      tags:
+        - Software
+      requestBody:
+        description: Software entry to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoftwareRegistry"
+      responses:
+        "201":
+          description: Software entry created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
+          description: Bad request, software entry already exists or invalid data
+
+  "/software/{id}":
+    get:
+      operationId: getSoftwareById
+      summary: Get software by ID
+      description: Retrieve a software entry by its unique identifier.
+      tags:
+        - Software
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Software entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
+          description: Software entry not found
+
+    put:
+      operationId: updateSoftwareById
+      summary: Update software entry
+      description: Update an existing software entry in the registry.
+      tags:
+        - Software
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated software entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoftwareRegistry"
+      responses:
+        "200":
+          description: Software entry updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareRegistry"
+        "default":
+          description: Bad request, invalid data
+
+    delete:
+      operationId: deleteSoftwareById
+      summary: Delete software entry
+      description: Delete a software entry from the registry.
+      tags:
+        - Software
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the software entry to delete
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Software entry deleted successfully
+        "default":
+          description: Software entry not found
+
+  "/users":
+    get:
+      operationId: listUsers
+      summary: Get list of keycloak users.
+      description: Get list of keycloak users.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Get list of keycloak users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+
+  "/severa/users/flextime":
+    get:
+      operationId: listUsersFlextime
+      summary: Get flextime for multiple users who have opted in
+      description: |
+        Retrieve flextime data for users who have opted in to Severa integration.
+        This endpoint is protected and can only be used by Admin users.
+      tags:
+        - Severa
+      responses:
+        "200":
+          description: List of users with their flextime data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserFlextime"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+  "/severa/users/{severaUserId}/workdays":
+    get:
+      operationId: listWorkdaysForUser
+      summary: Lists user's workdays for a specific time period
+      description: 
+        Lists a user's workdays from Severa for the given date range.
+        Each returned record includes data about the date, user GUID, expected hours, entered hours, and whether the day is a holiday.
+      tags:
+        - Severa
+      parameters:
+        - name: severaUserId
+          in: path
+          required: true
+          description: The unique Severa user ID (must match logged-in user)
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          required: false
+          description: Optional start date for the time period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          description: Optional end date for the time period.
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Successful response with user's workdays
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/listWorkdaysForUser"
+        "401":
+          description: Missing or invalid Severa user ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Authenticated user attempted to access another user's data.
+          content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/users/{userId}":
+    get:
+      operationId: findUser
+      summary: Find user by keycloak id
+      description: Finds user by keycloak id in keycloak.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Users ID in Keycloak
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found User information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+
+  "/users/{id}/attributes/{attributeName}":
+    put:
+      operationId: updateUserAttribute
+      summary: Update user attribute
+      description: Updates a user's attribute based on provided data.
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The Keycloak id of the user whose attributes are to be updated.
+          schema:
+            type: string
+            format: uuid
+        - name: attributeName
+          in: path
+          required: true
+          description: The name of the attribute to be updated. Allowed attributes 'isSeveraOptin'.
+          schema:
+            type: string
+      requestBody:
+        description: Email of the user whose attribute is being updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  description: Email of the user whose attribute is being updated.
+      responses:
+        "200":
+          description: User attribute updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateUserAttribute"
+        "default":
+          description: Invalid request was sent to the server.
+
+  "/users/{userId}/severa-opt-in":
+    put:
+      operationId: addSeveraOptIn
+      summary: Add Severa opt-in for user
+      description: Add the user's Severa opt-in status to both severa and keycloak.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak ID of the user to add Severa opt-in for.
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Opt-in completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: removeSeveraOptIn
+      summary: Remove Severa opt-in for user
+      description: Remove the user's Severa opt-in status.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak ID of the user to remove Severa opt-in for.
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Opt-out completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/users/{userId}/vacationDays":
+    put:
+      operationId: updateUserVacation
+      summary: Update user vacation days
+      description: Update vacation days for a specific user by year.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak ID of the user to update vacation for
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vacationDays:
+                  type: object
+                  description: Vacation days by year (e.g., "2024", "2025")
+                  additionalProperties:
+                    $ref: "#/components/schemas/YearlyVacationDays"
+                  example:
+                    "2024":
+                      total: 22
+                      remaining: 4
+                    "2025":
+                      total: 22
+                      remaining: 4
+              required:
+                - vacationDays
+      responses:
+        "200":
+          description: Successfully updated the vacation days
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/users/{severaUserId}/status":
+  put:
+    operationId: updateUserStatus
+    summary: Update user active status
+    description: Updates the isActive attribute of a user in Keycloak using the Severa user ID.
+    tags:
+      - Users
+    parameters:
+      - name: severaUserId
+        in: path
+        required: true
+        description: The Severa user ID used to identify the user.
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - isActive
+            properties:
+              isActive:
+                type: boolean
+                description: Whether the user is active or not
+    responses:
+      "200":
+        description: User status updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: User status updated
+      "400":
+        description: Invalid request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"
+      "500":
+        description: Internal server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"              
+
+  "/questionnaires":
+    get:
+      operationId: listQuestionnaires
+      summary: List questionnaires
+      description: Retrieve a list of all questionnaires in the registry.
+      tags:
+        - Questionnaires
+      responses:
+        "200":
+          description: A list of questionnaires
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      operationId: createQuestionnaires
+      summary: Register new questionnaire
+      description: Register a new questionnaire in the registry.
+      tags:
+        - Questionnaires
+      requestBody:
+        description: Questionnaire entry to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Questionnaire"
+      responses:
+        "201":
+          description: Questionnaire entry created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/questionnaires/{id}":
+    get:
+      operationId: getQuestionnairesById
+      summary: Get questionnaire by ID
+      description: Retrieve a questionnaire entry by its unique identifier.
+      tags:
+        - Questionnaires
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Questionnaire entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      operationId: updateQuestionnaires
+      summary: Update questionnaire entry
+      description: Update an existing questionnaire entry in the registry.
+      tags:
+        - Questionnaires
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated questionnaire entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Questionnaire"
+      responses:
+        "200":
+          description: Questionnaire entry updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: deleteQuestionnaires
+      summary: Delete questionnaire entry
+      description: Delete a questionnaire entry from the registry.
+      tags:
+        - Questionnaires
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the questionnaire entry to delete
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/users/{userId}/flextime":
+    get:
+      operationId: getFlextimeBySeveraUserId
+      summary: Get the flextime balance for a user.
+      description: Retrieve the flextime balances for a user based on their SeveraUserId.
+      tags:
+        - FlexTime
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: severaId of the user.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Flextime entry retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Flextime"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/severa/projects/{severaProjectId}/phases":
+    get:
+      operationId: getPhasesBySeveraProjectId
+      summary: Get all the phases for project
+      description: Retrieve all the phases for a particular project with given ID.
+      tags:
+        - Severa
+      parameters:
+        - name: severaProjectId
+          in: path
+          required: true
+          description: ID of the project.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of phases retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Phase"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/severa/resourceAllocations":
+    get:
+      operationId: getAllResourceAllocations
+      summary: Get all resource allocations
+      description: Retrieve all resource allocations
+      tags:
+        - Severa
+      parameters:
+        - name: severaUserId
+          required: false
+          in: query
+          description: severaId of the user logged in.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of resource allocations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResourceAllocations"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/severa/users/{severaUserId}/workWeek":
+    get:
+      operationId: calculateUserContractedWeek
+      summary: Get the logged-in user's contracted work week
+      description: Returns working week days total, and numbered array of days worked for vacation consumption calculations
+      tags:
+        - Severa
+      parameters:
+        - name: severaUserId
+          in: path
+          required: true
+          description: The unique Severa user ID (must match logged-in user)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The user's contracted work week as a numbered array and total work days.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calculateUserContractedWeek"
+        "400":
+          description: Missing Severa User ID or user not opted in.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Logged-in user is not authorized to view this data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  "/severa/workHours":
+    get:
+      operationId: getAllWorkHours
+      summary: Get all the work hours
+      description: Retrieve all the work hours.
+      tags:
+        - Severa
+      parameters:
+        - name: severaUserId
+          required: false
+          in: query
+          description: Filter work hours by users with unique severaUserId
+          schema:
+            type: string
+        - name: severaProjectId
+          required: false
+          in: query
+          description: Filter work hours by severaProjectId
+          schema:
+            type: string
+        - name: severaPhaseId
+          required: false
+          in: query
+          description: Filter work hours by severaPhaseId
+          schema:
+            type: string
+        - name: startDate
+          required: false
+          in: query
+          description: Filter work hours by startTime
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          required: false
+          in: query
+          description: Filter work hours by endTime
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: A list of all work hours
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WorkHours"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/vacationRequests":
+    get:
+      operationId: listVacationRequests
+      summary: List vacation requests
+      description: Lists persisted vacation requests
+      tags:
+        - VacationRequests
+      parameters:
+        - name: userId
+          required: false
+          in: query
+          description: Filter by users unique ID
+          schema:
+            type: string
+            format: uuid
+        - name: before
+          required: false
+          in: query
+          description: Retrieve vacation requests before given date.
+          schema:
+            type: string
+            format: date
+        - name: after
+          required: false
+          in: query
+          description: Retrieve vacation requests after given date.
+          schema:
+            type: string
+            format: date
+        - name: draft
+          required: false
+          in: query
+          description: Filter Vacation Requests by draft state
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of vacation requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createVacationRequest
+      summary: Post a new vacation request
+      description: Add new vacation request
+      tags:
+        - VacationRequests
+      requestBody:
+        description: New vacation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VacationRequest"
+      responses:
+        "201":
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/vacationRequests/{id}":
+    get:
+      operationId: findVacationRequest
+      summary: Finds vacation request
+      description: Finds persisted vacation request
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found vacation request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateVacationRequest
+      summary: Updates vacation request
+      description: Update vacation request
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Updated vacation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VacationRequest"
+      responses:
+        "200":
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequest"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteVacationRequest
+      summary: Delete a vacation request.
+      description: Deletes a vacation request.
+      tags:
+        - VacationRequests
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/vacationRequests/{id}/statuses":
+    get:
+      operationId: listVacationRequestStatuses
+      summary: List vacation requests statuses
+      description: List vacation requests statuses
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of vacation requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VacationRequestStatus"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createVacationRequestStatus
+      summary: Post a new vacation request status
+      description: Add new vacation request status
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: New vacation request status
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VacationRequestStatus"
+      responses:
+        "201":
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequestStatus"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/vacationRequests/{id}/statuses/{statusId}":
+    get:
+      operationId: findVacationRequestStatus
+      summary: Finds vacation request status
+      description: Finds persisted vacation request status
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+        - name: statusId
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found vacation request status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequestStatus"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateVacationRequestStatus
+      summary: Updates vacation request status
+      description: Update vacation request status
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequest id
+          schema:
+            type: string
+            format: uuid
+        - name: statusId
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Updated vacation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VacationRequestStatus"
+      responses:
+        "200":
+          description: created new vacation request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationRequestStatus"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteVacationRequestStatus
+      summary: Delete a vacation request status.
+      description: Deletes a vacation requests status.
+      tags:
+        - VacationRequestStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+        - name: statusId
+          required: true
+          in: path
+          description: VacationRequestStatus id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/usersSkills":
+    get:
+      operationId: listUsersSkills
+      summary: List UsersSkills
+      description: Lists UsersSkills
+      tags:
+        - UsersSkills
+      responses:
+        "200":
+          description: List of UsersSkills
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createUsersSkills
+      summary: Post a new UsersSkills
+      description: Add new UsersSkills
+      tags:
+        - UsersSkills
+      requestBody:
+        description: New UsersSkills
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSkills"
+      responses:
+        "201":
+          description: created a new UsersSkills
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/usersSkills/{id}":
+    get:
+      operationId: findUsersSkills
+      summary: Finds a UsersSkills
+      description: Finds a UsersSkills
+      tags:
+        - UsersSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a UsersSkills
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Found a UsersSkills.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateUsersSkills
+      summary: Updates a UsersSkills
+      description: Update a UsersSkills
+      tags:
+        - UsersSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a UsersSkills
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Updated UsersSkills
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSkills"
+      responses:
+        "200":
+          description: Update a new UsersSkills
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSkills"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteUsersSkills
+      summary: Delete a UsersSkills.
+      description: Deletes a UsersSkills.
+      tags:
+        - UsersSkills
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Id of a UsersSkills
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Empty response indicating successful removal.
+        "default":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/card-comments":
+    post:
+      operationId: createComment
+      summary: Add a comment to a Trello card
+      description: |
+        Creates a new comment on a specified Trello card.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      tags:
+        - Trello
+      x-status: inactive
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cardId:
+                  type: string
+                  description: The ID of the Trello card.
+                comment:
+                  type: string
+                  description: The comment text.
+      responses:
+        "200":
+          description: Comment created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardId:
+                    type: string
+                    description: The ID of the Trello card.
+                  comment:
+                    type: string
+                    description: The comment text.
+        "default":
+          description: Failed to create comment.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/cards":
+    get:
+      operationId: listCards
+      summary: Get all Trello cards on a list
+      description: |
+        Retrieves a list of cards and their comments from a specified Trello list.
+                   
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      tags:
+        - Trello
+      x-status: inactive
+      responses:
+        "200":
+          description: List of Trello cards retrieved successfully. 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrelloCard"
+        "default":
+          description: Failed to create card.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/card":
+    post:
+      operationId: createCard
+      summary: Create a new Trello card
+      description: |
+        Adds a new card to a Trello board.
+                   
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      tags:
+        - Trello
+      x-status: inactive
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the Trello card.
+                description:
+                  type: string
+                  description: Description of the Trello card.
+      responses:
+        "200":
+          description: Trello card created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardId:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+        "default":
+          description: Failed to create card.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/card/{id}":
+    delete:
+      operationId: deleteCard
+      summary: Delete a Trello card by ID
+      description: |
+        Deletes a Trello card identified by its unique ID.
+                   
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      tags:
+        - Trello
+      x-status: inactive
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Trello card deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "default":
+          description: Failed to fetch cards.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/trello/board-members":
+    get:
+      operationId: getBoardMembersEmails
+      summary: Get Trello board members' emails
+      description: |
+        Retrieves the email addresses of Trello board members.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      tags:
+        - Trello
+      x-status: inactive
+      responses:
+        "200":
+          description: List of board members' emails retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrelloMember"
+        "default":
+          description: Failed to fetch board members' emails.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memos":
+    get:
+      operationId: getMemos
+      summary: List memos
+      description: Retrieves the list of memos.
+      tags:
+        - Memo
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: List of memos retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PdfFile"
+        "default":
+          description: Missing parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memo-content":
+    get:
+      operationId: getContentMemo
+      summary: Get memo pdf content
+      description: Retrieves pdf file content
+      tags:
+        - Memo
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Memo PDF retrieved successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "default":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/google-drive/memo-summary":
+    get:
+      operationId: getSummaryMemo
+      summary: Generate summary of a memo content
+      description: |
+        Generates a summary of a memo content.
+        
+        **Endpoint not currently deployed; code retained, deployment disabled via serverless config.**
+      tags:
+        - Memo
+      x-status: inactive
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Memo summary generated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  en:
+                    type: string
+                  fi:
+                    type: string
+        "default":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/translate-memo/{id}/{language}":
+    get:
+      operationId: getTranslatedMemoPdf
+      summary: Get translated memo content
+      description: Retrieves the translated content of a memo PDF.
+      tags:
+        - Memo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: language
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Memo retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoRecord"
+        "400":
+          description: Missing required path parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Memo not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/translate-memo":
+    post:
+      operationId: createTranslatedMemoPdf
+      summary: Create translated memo content
+      description: Creates/stores the translated content of a memo PDF to DynamoDB.
+      tags:
+        - Memo
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Translated memo content created successfully.
+          content:
+            application/pdf:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: string
+        "default":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles":
+    get:
+      operationId: getArticles
+      summary: List articles
+      description: Get a list of articles
+      tags:
+        - Article
+      parameters:
+        - name: pathPrefix
+          required: false
+          in: query
+          description: Get articles which start with specified path.
+          schema:
+            type: string
+        - name: draft
+          required: false
+          in: query
+          description: Get draft articles.
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of articles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleMetadata"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      operationId: createArticle
+      summary: Post a new article
+      description: Add new article
+      tags:
+        - Article
+      requestBody:
+        description: New article entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+      responses:
+        "200":
+          description: Created new article entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/{id}":
+    get:
+      operationId: getArticle
+      summary: Get article by id
+      description: Get an article by id
+      tags:
+        - Article
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Get article with specified id.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article instance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      operationId: updateArticle
+      summary: Update an article
+      description: Update an article
+      tags:
+        - Article
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID of the article entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated article entry
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Article"
+      responses:
+        "200":
+          description: Update article entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: deleteArticle
+      summary: Delete article entry
+      description: Delete an article entry
+      tags:
+        - Article
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the article entry to delete
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article entry deleted successfully
+        "default":
+          description: Failed to delete article
+
+  "/articles/path":
+    get:
+      operationId: getArticleByPath
+      summary: Get article by path
+      description: Get an article by path
+      tags:
+        - Article
+      parameters:
+        - name: path
+          required: true
+          in: query
+          description: Get article with specified path.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article instance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/{id}/read":
+    post:
+      operationId: readArticle
+      summary: Read an article
+      description: Read an article
+      tags:
+        - Article
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the article entry to update
+          schema:
+            type: string
+      requestBody:
+        description: Updated article entry
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+      responses:
+        "200":
+          description: Updated article entry
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/upload-file":
+    post:
+      operationId: uploadFileForArticle
+      summary: Upload a file
+      description: Create a presigned URL for actual file upload.
+      tags:
+        - Article
+      requestBody:
+        description: Metadata of the new file to upload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileMetadata"
+      responses:
+        "200":
+          description: Created presigned URL
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Presigned URL object
+                required:
+                  - data
+                properties:
+                  data:
+                    type: string
+                    format: uri
+                    description: Generated presigned URL
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  "/articles/list-media":
+    get:
+      operationId: listMediaFiles
+      summary: List media files
+      description: Retrieves a list of media files from S3 for wiki documentation.
+      tags:
+        - Article
+      parameters:
+        - name: prefix
+          in: query
+          required: false
+          description: Optional prefix to filter media files by path.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of media files retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FileMetadata"
+        "default":
+          description: Invalid request was sent to the server.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      description: Error object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+        message:
+          type: string
+          description: Error message
+
+    User:
+      type: object
+      description: User Data
+      required:
+        - id
+        - firstName
+        - lastName
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User's ID in Keycloak.
+        firstName:
+          type: string
+          description: User's first name.
+        lastName:
+          type: string
+          description: User's last name.
+        email:
+          type: string
+          description: User's email.
+        attributes:
+          $ref: "#/components/schemas/Attributes"
+
+    UserFlextime:
+      type: object
+      description: User data combined with their flextime information
+      required:
+        - user
+        - flextime
+      properties:
+        user:
+          type: object
+          description: User information
+          required:
+            - firstName
+            - lastName
+          properties:
+            firstName:
+              type: string
+              description: User's first name
+            lastName:
+              type: string
+              description: User's last name
+            email:
+              type: string
+              description: User's email address
+            attributes:
+              type: object
+              description: User attributes
+              properties:
+                severaUserId:
+                  type: string
+                  description: User's ID in Severa system
+                isActive:
+                  type: boolean
+                  description: Whether user is active  
+        flextime:
+          $ref: "#/components/schemas/Flextime"
+
+    calculateUserContractedWeek:
+      type: object
+      description: User work week and days worked in a week.
+      required:
+        - contractedWeek
+        - contractedDaysCount
+      properties:
+        contractedWeek:
+          type: array
+          description: > 
+            Numeric array of the user's contracted workdays in a week 1 - 7 = Mon - Sun
+            Compare with vacation date range to check vacation days consumption
+          items:
+            type: integer
+            minimum: 0
+            maximum: 6
+        contractedDaysCount:
+          type: integer
+          description: Total number of contracted workdays in the week, taken from array length
+
+    YearlyVacationDays:
+      type: object
+      description: Vacation allocation and balance for a specific year
+      required:
+        - total
+        - remaining
+      properties:
+        total:
+          type: integer
+          description: Total vacation days allocated for the year
+        remaining:
+          type: integer
+          description: Remaining vacation days for the year
+
+    Attributes:
+      type: object
+      description: User`s custom attributes
+      properties:
+        severaUserId:
+          type: string
+          description: User`s ID in Severa
+        isActive:
+          type: boolean
+          description: Defining if user is active e.g. is employed.
+        vacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and vacation days in format "YYYY:DDD".
+        unspentVacationDaysByYear:
+          type: array
+          items:
+            type: string
+            description: Year and unspent vacation days in format "YYYY:DDD".
+        passedQuestionnaires:
+          type: array
+          items:
+            type: string
+        forecastId:
+          type: integer
+          format: int32
+          description: User's ID in Forecast. Used for keeping a reference of Forecast based TimeEntries and Users.
+
+    UpdateUserAttribute:
+      type: object
+      description: Response after updating user attributes.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User's ID in Keycloak.
+        updatedKeycloakAttributes:
+          type: object
+          properties:
+            severaUserId:
+              type: string
+              description: User's ID in Severa.
+        severaUser:
+          $ref: "#/components/schemas/SeveraUser"
+
+    SeveraUser:
+      type: object
+      description: The useUserFlextimer's information from Severa.
+      properties:
+        email:
+          type: string
+          description: The email address fetched from Severa.
+        severaUserId:
+          type: string
+          description: The Severa user ID associated with the Keycloak attribute.
+        severaKeyword:
+          type: string
+          description: The keyword returned from Severa API that is associated with the user.
+
+    Skill:
+      type: object
+      description: A singular skill entity
+      required:
+        - name
+        - years
+        - category
+      properties:
+        name:
+          type: string
+          description: Name of the skill
+        months:
+          type: number
+          description: Number of months of experience
+        category:
+          type: string
+          description: Category of the skill
+
+    UsersSkills:
+      type: object
+      description: A user entity with skills attribute
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User`s Keycloak Id
+          default: null
+        name:
+          type: string
+          description: User`s name
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/Skill"
+
+    Lead:
+      type: object
+      description: Lead data from Pipedrive API
+      required:
+        - leadId
+        - title
+        - interested
+        - usedTech
+        - addTime
+        - updateTime
+        - nextActivityDate
+        - labelIds
+      properties:
+        leadId:
+          type: string
+          format: uuid
+          description: LeadId is used to identify projects
+        title:
+          type: string
+          description: Title or a Name of a Lead
+        interested:
+          type: string
+          description: String where userIds are stored separated with semicolon.
+        usedTech:
+          type: string
+          description: String where usedTech are stored separated with semicolon.
+        addTime:
+          type: string
+          format: date-time
+          description: Time when Lead is created or added to Pipedrive
+        updateTime:
+          type: string
+          format: date-time
+          description: Time when Lead is last updated to Pipedrive
+        nextActivityDate:
+          type: string
+          format: date-time
+          description: Time when next activity is going to happen on a Lead
+        labelIds:
+          type: array
+          items:
+            type: string
+          description: String array where Lead labels are stored. labelIds are 'Hot', 'Warm' or 'Cold'
+
+    Deal:
+      type: object
+      description: Deal data from Pipedrive API
+      required:
+        - dealId
+        - title
+        - interested
+        - usedTech
+        - value
+        - currency
+        - addTime
+        - updateTime
+        - nextActivityDate
+        - nextActivitySubject
+        - nextActivityNote
+        - status
+      properties:
+        dealId:
+          type: integer
+          description: DealId is used to identify projects
+        title:
+          type: string
+          description: Title or a Name of a Deal
+        interested:
+          type: string
+          description: String where userIds are stored separated with semicolon.
+        usedTech:
+          type: string
+          description: String where usedTech are stored separated with semicolon.
+        value:
+          type: number
+          description: Value of a deal
+        currency:
+          type: string
+          description: Currency that is used to tell the value of a deal
+        addTime:
+          type: string
+          format: date-time
+          description: Time when Deal is created or added to Pipedrive
+        updateTime:
+          type: string
+          format: date-time
+          description: Time when Deal is last updated to Pipedrive
+        nextActivityDate:
+          type: string
+          format: date-time
+          description: Time when next activity is going to happen on a Deal
+        nextActivitySubject:
+          type: string
+          description: Used to tell the subject of a next activity.
+        nextActivityNote:
+          type: string
+          description: Holds more information about the next activity.
+        status:
+          type: string
+          description: Status of a Deal. Is the deal open, lost or won
+
+    Interest:
+      type: object
+      description: Adding or removing interest to Pipedrive API
+      required:
+        - interest
+      properties:
+        interest:
+          type: string
+          description: String where userIds are stored separated with semicolon.
+
+    OnCall:
+      type: object
+      description: On-call data from AWS DynamoDB
+      required:
+        - Year
+        - Week
+        - Username
+        - Paid
+      properties:
+        Year:
+          type: number
+          description: Year of the on-call entry
+        Week:
+          type: number
+          description: On call week number
+        Username:
+          type: string
+          description: Username of the person on call
+        Email:
+          type: string
+          format: email
+          nullable: true 
+          description: "Email address of the on-call user (may be null for past entries)"
+        Paid:
+          type: boolean
+          description: Status of on call week payment
+
+
+    OnCallPaid:
+      type: object
+      description: On-call request body to update paid status.
+      required:
+        - year
+        - week
+        - paid
+      properties:
+        year:
+          type: number
+          description: Selected year of on call entries
+        week:
+          type: number
+          description: Selected week of on call entries
+        paid:
+          type: boolean
+          description: Status of on call week payment
+
+    SoftwareStatus:
+      type: string
+      description: Status of the software entry
+      enum:
+        - PENDING
+        - UNDER_REVIEW
+        - ACCEPTED
+        - DEPRECATED
+        - DECLINED
+
+    SoftwareRegistry:
+      type: object
+      required:
+        - name
+        - description
+        - url
+        - image
+        - createdBy
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the software entry
+        name:
+          type: string
+          description: Name of the software
+        description:
+          type: string
+          description: Description of the software
+        url:
+          type: string
+          format: uri
+          description: URL to relevant information/marketing page
+        image:
+          type: string
+          format: uri
+          description: URL to the image of the software
+        status:
+          $ref: "#/components/schemas/SoftwareStatus"
+        review:
+          type: string
+          description: User review of the software
+        createdBy:
+          type: string
+          description: User who created the software entry
+        createdAt:
+          type: string
+          format: date-time
+          description: Date and time when the software entry was created
+        lastUpdatedBy:
+          type: string
+          description: User who last updated the software entry
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          description: Date and time when the software entry was last updated
+        recommend:
+          type: array
+          items:
+            type: string
+          description: An array that stores the user IDs of individuals who the software is recommended to
+        tags:
+          type: array
+          items:
+            type: string
+          description: An array that holds tags associated with the software for categorization
+        users:
+          type: array
+          items:
+            type: string
+          description: An array that stores the user IDs of individuals who have added or are using the software
+
+    Questionnaire:
+      type: object
+      required:
+        - title
+        - description
+        - questions
+        - passScore
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the questionnaire
+        title:
+          type: string
+          description: Title of the questionnaire
+        description:
+          type: string
+          description: Description of the questionnaire
+        questions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Question"
+          description: List of questions in the questionnaire
+        tags:
+          type: array
+          items:
+            type: string
+          description: List of tags for the questionnaire
+        passedUsers:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: List of users who have passed the questionnaire
+        passScore:
+          type: integer
+          description: Minimum score required to pass the questionnaire
+
+    Question:
+      type: object
+      required:
+        - questionText
+        - answerOptions
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the question
+        questionText:
+          type: string
+          description: The question text
+        answerOptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnswerOption"
+          description: List of answer options available for the question
+
+    AnswerOption:
+      type: object
+      required:
+        - label
+        - isCorrect
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the answer option
+        label:
+          type: string
+          description: Display text for the answer option
+        isCorrect:
+          type: boolean
+          description: Indicates if this option is the correct answer
+
+    VacationType:
+      type: string
+      description: Enum for vacation type
+      enum:
+        - VACATION
+
+    VacationRequestStatuses:
+      type: string
+      description: Enum for vacation request status
+      enum:
+        - PENDING
+        - APPROVED
+        - DECLINED
+
+    VacationRequest:
+      type: object
+      description: Person's single vacation request
+      required:
+        - userId
+        - days
+        - startDate
+        - endDate
+        - type
+        - message
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of vacation request in UUID
+          default: null
+        userId:
+          type: string
+          format: uuid
+          description: User keycloak ID in UUID
+        draft:
+          type: boolean
+          description: Draft state
+        startDate:
+          type: string
+          format: date
+          description: Date of vacation start
+        endDate:
+          type: string
+          format: date
+          description: Date of vacation end
+        days:
+          type: integer
+          format: int32
+          description: Vacation days used for requested vacation
+        type:
+          $ref: "#/components/schemas/VacationType"
+          description: type of vacation request
+        status:
+          type: array
+          items:
+            $ref: "#/components/schemas/VacationRequestStatus"
+            description: status of vacation request
+        message:
+          type: string
+          description: Message attached to request
+        createdBy:
+          type: string
+          format: uuid
+          description: ID of person who created status in UUID
+        createdAt:
+          type: string
+          format: date-time
+          description: Date time of vacation request registration
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date time of vacation request update
+
+    VacationRequestStatus:
+      type: object
+      description: singular vacation request status
+      required:
+        - status
+      properties:
+        status:
+          $ref: "#/components/schemas/VacationRequestStatuses"
+        createdBy:
+          type: string
+          format: uuid
+          description: ID of person who created status in UUID
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date time of status update
+
+    Flextime:
+      type: object
+      properties:
+        totalFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
+        monthFlextimeBalance:
+          type: number
+          format: double
+          nullable: true
+
+    TrelloCard:
+      type: object
+      properties:
+        cardId:
+          type: string
+          description: Unique identifier for the Trello card
+        title:
+          type: string
+          description: Title of the Trello card
+        description:
+          type: string
+          description: Detailed description of the Trello card
+        assignedPersons:
+          type: array
+          items:
+            type: string
+          description: List of persons assigned to the Trello card
+        comments:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: Comment text
+              createdBy:
+                type: string
+                description: Author of the comment
+
+    TrelloMember:
+      type: object
+      properties:
+        memberId:
+          type: string
+          description: Unique identifier for the Trello board member
+        fullName:
+          type: string
+          description: Full name of the Trello board member
+        email:
+          type: string
+          description: Email of the Trello board member
+
+    PdfFile:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        content:
+          type: string
+          format: byte
+          description: Base64-encoded PDF content
+    
+    MemoRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        fileId:
+          type: string 
+        fileName:
+          type: string
+        language:
+          type: string
+        translatedBase64:
+          type: string
+          format: binary   
+        
+    Phase:
+      type: object
+      properties:
+        severaPhaseId:
+          format: uuid
+          type: string
+        name:
+          type: string
+          nullable: true
+        isCompleted:
+          type: boolean
+          default: false
+        workHoursEstimate:
+          type: number
+          format: double
+        startDate:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        project:
+          type: object
+          description: A reference to Project in Phase Object
+          properties:
+            severaProjectId:
+              format: uuid
+              type: string
+              description: Id of the project
+            name:
+              type: string
+              description: Name of the project
+            isClosed:
+              type: boolean
+              default: false
+              description: Boolean value to indicate if the project has been closed or not
+
+    ResourceAllocations:
+      type: object
+      properties:
+        severaResourceAllocationId:
+          format: uuid
+          type: string
+        allocationHours:
+          type: number
+          format: double
+        calculatedAllocationHours:
+          type: number
+          format: double
+        phase:
+          type: object
+          description: A reference to Phase Model in Resource Allocation Object
+          properties:
+            severaPhaseId:
+              format: uuid
+              type: string
+              description: Id of the phase
+            name:
+              type: string
+              description: Name of the phase
+        user:
+          type: object
+          description: A reference to User Model in Resource Allocation Object
+          properties:
+            severaUserId:
+              format: uuid
+              type: string
+              description: Id of the user
+            name:
+              type: string
+              description: Name of the user
+        project:
+          type: object
+          description: A reference to Project Model in Resource Allocation Object
+          properties:
+            severaProjectId:
+              format: uuid
+              type: string
+            name:
+              type: string
+            isInternal:
+              type: boolean
+
+    WorkHours:
+      type: object
+      properties:
+        severaWorkHoursId:
+          type: string
+        user:
+          type: object
+          description: A reference to User Model in WorkHours Object
+          properties:
+            severaUserId:
+              type: string
+              description: Id of the user
+            name:
+              type: string
+              description: Name of the user
+        project:
+          type: object
+          description: A reference to Project Model in WorkHours Object
+          properties:
+            severaProjectId:
+              type: string
+              description: Id of the project
+            name:
+              type: string
+              description: Name of the project
+            isClosed:
+              type: boolean
+              default: false
+              description: Boolean value to indicate if the project has been closed or not
+        phase:
+          type: object
+          description: A reference to Phase Model in WorkHours Object
+          properties:
+            severaPhaseId:
+              type: string
+              description: Id of the phase
+            name:
+              type: string
+              description: Name of the phase
+        description:
+          type: string
+        quantity:
+          type: number
+          format: double
+
+    listWorkdaysForUser:
+      type: object
+      required:
+      - date
+      - userGuid
+      - expectedHours
+      - enteredHours
+      - isHoliday
+      description: Workday details for a specific user
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date of the workday
+          example: "2025-10-03"
+        userGuid:
+          type: string
+          format: uuid
+          description: Unique identifier of the user
+          example: "0c6b0b15-15eb-a77b-ad09-61527abc7be6"
+        expectedHours:
+          type: number
+          format: double
+          description: Expected work hours for the day
+          example: 7.25
+        enteredHours:
+          type: number
+          format: double
+          description: Actual hours entered by the user
+          example: 7.25
+        isHoliday:
+          type: boolean
+          description: Indicates if the day is a holiday
+          example: false
+        holidayName:
+          type: string
+          nullable: true
+          description: Name of the holiday if the date is marked as a holiday; otherwise null
+          example: "Independence Day"
+
+
+
+    ArticleMetadata:
+      type: object
+      required:
+        - path
+        - title
+        - createdBy
+        - draft
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the article entry
+        path:
+          type: string
+          description: Unique path identifier for the article entry
+        title:
+          type: string
+          description: Title of the article entry
+        createdBy:
+          type: string
+          description: User ID who created article entry
+        createdAt:
+          type: string
+          format: date-time
+          description: Date and time when the article entry was created
+        lastUpdatedBy:
+          type: string
+          description: User ID who lastly updated article entry
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          description: Date and time when the article entry was lastly updated
+        lastReadAt:
+          type: string
+          format: date-time
+          description: Date and time when the article entry was lastly read
+        readBy:
+          type: array
+          items:
+            type: string
+          description: User IDs who read article
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags categorization associated with the article
+        coverImage:
+          type: string
+          format: uri
+          description: URL of the image for the article
+        description:
+          type: string
+          description: Short description - summary of the article content
+        draft:
+          type: boolean
+          description: Marker of draft articles
+
+    Article:
+      allOf:
+        - $ref: "#/components/schemas/ArticleMetadata"
+        - type: object
+          required:
+            - content
+          properties:
+            content:
+              type: string
+              description: Content of the article
+
+    FileMetadata:
+      type: object
+      properties:
+        path:
+          type: string
+        contentType:
+          type: string
+    
+    SlackAvatarResponse:
+      type: object
+      description: Response containing Slack avatar information. Returns imageOriginal when available, or reason when the avatar cannot be retrieved.
+      properties:
+        imageOriginal:
+          type: string
+          format: uri
+        reason:
+          type: string
+          enum:
+            - no_avatar
+            - email_mismatch
+          description: >
+            Indicates why an avatar is unavailable. This field is populated 
+            only when `imageOriginal` is null or absent.  
+            - `no_avatar`: Slack user exists but has no avatar set.  
+            - `email_mismatch`: No Slack user matches the provided email.  
 
   "/questionnaires":
     get:
