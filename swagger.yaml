@@ -950,7 +950,153 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"              
+                $ref: "#/components/schemas/Error"
+                
+   "/users/{userId}/roles":
+    get:
+      operationId: getUserRoles
+      summary: Get user roles
+      description: Retrieve roles assigned to a user from Keycloak
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of roles assigned to the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: developer
+
+    put:
+      operationId: updateUserRoles
+      summary: Update user roles
+      description: |
+        Allows users to self-select roles. Updates roles in Keycloak. Restricted roles (e.g. admin) cannot be assigned by users.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - roles
+              properties:
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - developer
+                    - designer
+      responses:
+        "200":
+          description: Roles updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Roles updated successfully
+        "400":
+          description: Invalid roles provided
+        "403":
+          description: Attempt to assign restricted roles
+
+  "/software/recommended":
+    get:
+      operationId: getRecommendedSoftware
+      summary: Get recommended software
+      description: Returns software filtered based on user roles
+      tags:
+        - Software
+      parameters:
+        - name: roles
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Filtered software list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SoftwareRegistry"
+
+  "/articles/recommended":
+    get:
+      operationId: getRecommendedArticles
+      summary: Get recommended articles
+      description: Returns articles filtered based on user roles
+      tags:
+        - Article
+      parameters:
+        - name: roles
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Filtered articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleMetadata"
+
+  "/questionnaires/recommended":
+    get:
+      operationId: getRecommendedQuestionnaires
+      summary: Get recommended questionnaires
+      description: Returns questionnaires filtered based on user roles
+      tags:
+        - Questionnaires
+      parameters:
+        - name: roles
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Filtered questionnaires
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Questionnaire"                            
 
   "/questionnaires":
     get:
@@ -3554,3 +3700,29 @@ components:
           type: integer
           description: Number of vacations that ended
           example: 2
+  ArticleMetadata:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+          description: Roles this article is recommended for
+
+  SoftwareRegistry:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+          description: Roles this software is recommended for
+
+  Questionnaire:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+          description: Roles this questionnaire is intended for
