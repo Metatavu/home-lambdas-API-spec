@@ -2420,29 +2420,29 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/jobs/vacation-slack-sync":
+  "/jobs/vacation-list-sync":
     post:
-      operationId: vacationSlackSync
-      summary: Checks for vacations starting at the current time and updates Slack status
+      operationId: vacationListSync
+      summary: Checks for vacations starting at the current time and updates a personalized Keycloak status
       description: Internal job triggered by a scheduler based on a configured cron expression.
         This job runs daily and is responsible for checking vacation data
-        and synchronizing Slack user statuses accordingly.
+        and synchronizing a personalized Keycloak status accordingly.
 
-        The job evaluates which vacations start  at the current time and updates Slack status for users whose vacation is starting
+        The job evaluates which vacations start  at the current time and updates Keycloak status for users whose vacation is starting
 
         This endpoint is documented for specification completeness and
         is not intended to be invoked manually.
       tags:
-        - Slack
+        - Keycloak
         - Vacation
         - Jobs
       responses:
         "200":
-          description: Vacation Slack synchronization job executed successfully
+          description: Vacation Keycloak synchronization job executed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationSlackSyncResult'
+                $ref: '#/components/schemas/VacationKeycloakSyncResult'
         "500":
           description: Internal server error during job execution
           content:
