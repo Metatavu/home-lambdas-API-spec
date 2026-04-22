@@ -2423,25 +2423,24 @@ paths:
   "/jobs/vacation-list-sync":
     post:
       operationId: vacationListSync
-      summary: Checks for vacations starting at the current time and updates a personalized Keycloak status
+      summary: Checks for vacations starting at the current time and updates the vacation status to onGoing or ended
       description: Internal job triggered by a scheduler based on a configured cron expression.
-        This job runs daily and is responsible for checking vacation data and synchronizing a personalized Keycloak status accordingly.
+        This job runs daily and is responsible for checking vacation data and changing the vacation status accordingly.
 
-        The job evaluates which vacations start  at the current time and updates Keycloak status for users whose vacation is starting
+        The job evaluates which vacations start and end at the current time and updates the vacation status for users whose vacation is starting or ending.
 
-        This endpoint is documented for specification completeness and
-        is not intended to be invoked manually.
+        This endpoint is documented for specification completeness and is not intended to be invoked manually.
       tags:
         - Keycloak
         - Vacation
         - Jobs
       responses:
         "200":
-          description: Vacation Keycloak synchronization job executed successfully
+          description: Vacation synchronization job executed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationKeycloakSyncResult'
+                $ref: '#/components/schemas/VacationSyncResult'
         "500":
           description: Internal server error during job execution
           content:
@@ -3534,7 +3533,7 @@ components:
           enum: [easy, medium, hard]
           example: medium
 
-    VacationKeycloakSyncResult:
+    VacationSyncResult:
       type: object
       required:
         - processedUsers
