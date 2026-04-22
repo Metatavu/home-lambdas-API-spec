@@ -2973,11 +2973,13 @@ components:
 
     VacationRequestStatuses:
       type: string
-      description: Enum for vacation request status. Slack away synchronization is allowed only for APPROVED vacations.
+      description: Enum for vacation request status.
       enum:
         - PENDING
         - APPROVED
         - DECLINED
+        - ONGOING
+        - ENDED
 
     VacationRequest:
       type: object
