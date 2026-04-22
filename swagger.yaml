@@ -2423,7 +2423,7 @@ paths:
   "/jobs/vacation-list-sync":
     post:
       operationId: vacationListSync
-      summary: Checks for vacations starting at the current time and updates the vacation status to onGoing or ended
+      summary: Checks for vacations starting at the current time and updates the vacation status to ongoing or ended
       description: Internal job triggered by a scheduler based on a configured cron expression.
         This job runs daily and is responsible for checking vacation data and changing the vacation status accordingly.
 
@@ -2979,7 +2979,7 @@ components:
         - APPROVED
         - DECLINED
         - ONGOING
-        - ENDED
+        - COMPLETED
 
     VacationRequest:
       type: object
