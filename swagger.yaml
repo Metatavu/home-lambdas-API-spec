@@ -2425,8 +2425,7 @@ paths:
       operationId: vacationListSync
       summary: Checks for vacations starting at the current time and updates a personalized Keycloak status
       description: Internal job triggered by a scheduler based on a configured cron expression.
-        This job runs daily and is responsible for checking vacation data
-        and synchronizing a personalized Keycloak status accordingly.
+        This job runs daily and is responsible for checking vacation data and synchronizing a personalized Keycloak status accordingly.
 
         The job evaluates which vacations start  at the current time and updates Keycloak status for users whose vacation is starting
 
@@ -3535,7 +3534,7 @@ components:
           enum: [easy, medium, hard]
           example: medium
 
-    VacationSlackSyncResult:
+    VacationKeycloakSyncResult:
       type: object
       required:
         - processedUsers
