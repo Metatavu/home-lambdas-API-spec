@@ -508,6 +508,16 @@ paths:
       description: Retrieve a list of all software entries in the registry.
       tags:
         - Software
+      parameters:
+        - name: roles
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Role"
       responses:
         "200":
           description: A list of software entries
@@ -952,31 +962,22 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
                 
-   "/users/{userId}/roles":
+  "/users/{userId}/roles":
     get:
       operationId: getUserRoles
       summary: Get user roles
       description: Retrieve roles assigned to a user from Keycloak
-      tags:
-        - Users
+      tags: [Users]
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/UserId"
       responses:
         "200":
           description: List of roles assigned to the user
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
-                  example: developer
-
+                $ref: "#/components/schemas/UserRolesResponse"
+        
     put:
       operationId: updateUserRoles
       summary: Update user roles
@@ -985,118 +986,24 @@ paths:
       tags:
         - Users
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
+          - $ref: "#/components/parameters/UserId"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - roles
-              properties:
-                roles:
-                  type: array
-                  items:
-                    type: string
-                  example:
-                    - developer
-                    - designer
+              $ref: "#/components/schemas/UpdateUserRolesRequest"
       responses:
         "200":
           description: Roles updated successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Roles updated successfully
+                $ref: "#/components/schemas/SuccessMessage"
         "400":
           description: Invalid roles provided
         "403":
           description: Attempt to assign restricted roles
-
-  "/software/recommended":
-    get:
-      operationId: getRecommendedSoftware
-      summary: Get recommended software
-      description: Returns software filtered based on user roles
-      tags:
-        - Software
-      parameters:
-        - name: roles
-          in: query
-          required: true
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        "200":
-          description: Filtered software list
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/SoftwareRegistry"
-
-  "/articles/recommended":
-    get:
-      operationId: getRecommendedArticles
-      summary: Get recommended articles
-      description: Returns articles filtered based on user roles
-      tags:
-        - Article
-      parameters:
-        - name: roles
-          in: query
-          required: true
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        "200":
-          description: Filtered articles
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ArticleMetadata"
-
-  "/questionnaires/recommended":
-    get:
-      operationId: getRecommendedQuestionnaires
-      summary: Get recommended questionnaires
-      description: Returns questionnaires filtered based on user roles
-      tags:
-        - Questionnaires
-      parameters:
-        - name: roles
-          in: query
-          required: true
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        "200":
-          description: Filtered questionnaires
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Questionnaire"                            
 
   "/questionnaires":
     get:
@@ -1105,6 +1012,16 @@ paths:
       description: Retrieve a list of all questionnaires in the registry.
       tags:
         - Questionnaires
+      parameters:
+        - name: roles
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Role"  
       responses:
         "200":
           description: A list of questionnaires
@@ -2260,6 +2177,15 @@ paths:
           description: Get draft articles.
           schema:
             type: boolean
+        - name: roles  
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Role"
       responses:
         "200":
           description: List of articles.
@@ -2602,6 +2528,15 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  parameters:
+  UserId:
+    name: userId
+    in: path
+    required: true
+    schema:
+      type: string
+      format: uuid  
 
   schemas:
     Error:
@@ -3700,29 +3635,42 @@ components:
           type: integer
           description: Number of vacations that ended
           example: 2
-  ArticleMetadata:
-      type: object
-      properties:
-        roles:
-          type: array
-          items:
-            type: string
-          description: Roles this article is recommended for
 
-  SoftwareRegistry:
-      type: object
-      properties:
-        roles:
-          type: array
-          items:
-            type: string
-          description: Roles this software is recommended for
+    Role:  
+      type: string
+      enum:
+        - developer
+        - designer
+        - architect
+        - admin
+        - management
+        - trainee
 
-  Questionnaire:
+    UserRolesResponse:
       type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/Role"
+
+    UpdateUserRolesRequest:
+      type: object
+      required:
+        - roles
       properties:
         roles:
           type: array
           items:
-            type: string
-          description: Roles this questionnaire is intended for
+            $ref: "#/components/schemas/Role"
+
+    SuccessMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Roles updated successfully      
+  
