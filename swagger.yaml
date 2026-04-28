@@ -512,8 +512,6 @@ paths:
         - name: roles
           in: query
           required: false
-          style: form
-          explode: true
           schema:
             type: array
             items:
@@ -967,7 +965,8 @@ paths:
       operationId: getUserRoles
       summary: Get user roles
       description: Retrieve roles assigned to a user from Keycloak
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - $ref: "#/components/parameters/UserId"
       responses:
@@ -1016,8 +1015,6 @@ paths:
         - name: roles
           in: query
           required: false
-          style: form
-          explode: true
           schema:
             type: array
             items:
@@ -2180,8 +2177,6 @@ paths:
         - name: roles  
           in: query
           required: false
-          style: form
-          explode: true
           schema:
             type: array
             items:
@@ -2530,13 +2525,13 @@ components:
       bearerFormat: JWT
 
   parameters:
-  UserId:
-    name: userId
-    in: path
-    required: true
-    schema:
-      type: string
-      format: uuid  
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid  
 
   schemas:
     Error:
