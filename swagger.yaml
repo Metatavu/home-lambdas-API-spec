@@ -508,6 +508,14 @@ paths:
       description: Retrieve a list of all software entries in the registry.
       tags:
         - Software
+      parameters:
+        - name: roles
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Role"
       responses:
         "200":
           description: A list of software entries
@@ -950,7 +958,69 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"              
+                $ref: "#/components/schemas/Error"
+                
+  "/users/{userId}/roles":
+    get:
+      operationId: getUserRoles
+      summary: Get user roles
+      description: Retrieve roles assigned to a user from Keycloak
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: List of roles assigned to the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRolesResponse"
+        "400":
+          description: Invalid user ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref:"#/components/schemas/Error"
+        
+    put:
+      operationId: updateUserRoles
+      summary: Update user roles
+      description: |
+        Allows users to self-select roles. Updates roles in Keycloak. Restricted roles (e.g. admin) cannot be assigned by users.
+      tags:
+        - Users
+      parameters:
+          - $ref: "#/components/parameters/UserId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRolesRequest"
+      responses:
+        "200":
+          description: Roles updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessMessage"
+        "400":
+          description: Invalid roles provided
+        "403":
+          description: Attempt to assign restricted roles
 
   "/questionnaires":
     get:
@@ -959,6 +1029,14 @@ paths:
       description: Retrieve a list of all questionnaires in the registry.
       tags:
         - Questionnaires
+      parameters:
+        - name: roles
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Role"  
       responses:
         "200":
           description: A list of questionnaires
@@ -2144,6 +2222,13 @@ paths:
           description: Get draft articles.
           schema:
             type: boolean
+        - name: roles  
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Role"
       responses:
         "200":
           description: List of articles.
@@ -2484,6 +2569,15 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid  
 
   schemas:
     Error:
@@ -3584,3 +3678,34 @@ components:
           type: integer
           description: Number of vacations that ended
           example: 2
+
+    Role:  
+      type: string
+      enum:
+        - developer
+        - designer
+        - architect
+        - admin
+        - management
+        - trainee
+
+    UserRolesResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/Role"
+
+    UpdateUserRolesRequest:
+      type: object
+      required:
+        - roles
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/Role"
