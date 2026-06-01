@@ -976,6 +976,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserRolesResponse"
+        "400":
+          description: Invalid user ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref:"#/components/schemas/Error"
         
     put:
       operationId: updateUserRoles
@@ -3661,11 +3679,3 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Role"
-
-    SuccessMessage:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Roles updated successfully      
-  
