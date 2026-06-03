@@ -519,7 +519,7 @@ paths:
         - name: tags
           in: query
           required: false
-          description: Filter softwareby tags
+          description: Filter software by tags
           schema:
             type: array
             items:
