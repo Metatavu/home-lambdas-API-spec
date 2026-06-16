@@ -512,6 +512,7 @@ paths:
         - name: roles
           in: query
           required: false
+          description: Return software recommended for the specified roles.
           schema:
             type: array
             items:
@@ -519,11 +520,13 @@ paths:
         - name: tags
           in: query
           required: false
-          description: Filter softwareby tags
+          description: Filter softwareby tags. Used by the recommendation feature to return software relevant to the user's selected roles.
           schema:
             type: array
             items:
-              type: string     
+              type: string   
+          style: form
+          explode: false  
       responses:
         "200":
           description: A list of software entries
@@ -984,6 +987,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserRolesResponse"
+        "400":
+          description: Invalid user ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref:"#/components/schemas/Error"
         
     put:
       operationId: updateUserRoles
@@ -1023,6 +1044,7 @@ paths:
         - name: roles
           in: query
           required: false
+          description: Return questionnaries recommended for the specified roles.
           schema:
             type: array
             items:
@@ -1030,11 +1052,13 @@ paths:
         - name: tags
           in: query
           required: false
-          description: Filter questionnaires by tags
+          description: Filter questionnaires by tags. Used by the recommendation feature to return questionnaries relevant to the user's selected roles.
           schema:
             type: array
             items: 
               type: string
+          style: form
+          explode: false    
       responses:
         "200":
           description: A list of questionnaires
@@ -1419,13 +1443,25 @@ paths:
               $ref: "#/components/schemas/VacationRequest"
       responses:
         "201":
-          description: created new vacation request
+          description: Vacation request created successfully
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/VacationRequest"
-        "default":
-          description: Invalid request was sent to the server.
+        "400":
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Business rule violation (e.g. invalid dates or conflicting request)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
           content:
             application/json:
               schema:
@@ -1487,8 +1523,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VacationRequest"
-        "default":
-          description: Invalid request was sent to the server.
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Vacation request not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Invalid vacation date range
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
           content:
             application/json:
               schema:
@@ -2193,6 +2247,7 @@ paths:
         - name: roles  
           in: query
           required: false
+          description: Return articles recommended for the specified roles.
           schema:
             type: array
             items:
@@ -2200,11 +2255,13 @@ paths:
         - name: tags
           in: query
           required: false
-          description: filter articles by tags
+          description: filter articles by tags. Used by  the recommendation feature to return articles relevant to the user's selected roles.
           schema:
             type: array
             items: 
-              type: string      
+              type: string
+          style: form
+          explode: false          
       responses:
         "200":
           description: List of articles.
@@ -2511,29 +2568,27 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  "/jobs/vacation-slack-sync":
+  "/jobs/vacation-list-sync":
     post:
-      operationId: vacationSlackSync
-      summary: Checks for vacations starting at the current time and updates Slack status
+      operationId: vacationListSync
+      summary: Checks for vacations starting at the current time and updates the vacation status to ongoing or ended
       description: Internal job triggered by a scheduler based on a configured cron expression.
-        This job runs daily and is responsible for checking vacation data
-        and synchronizing Slack user statuses accordingly.
+        This job runs daily and is responsible for checking vacation data and changing the vacation status accordingly.
 
-        The job evaluates which vacations start  at the current time and updates Slack status for users whose vacation is starting
+        The job evaluates which vacations start and end at the current time and updates the vacation status for users whose vacation is starting or ending.
 
-        This endpoint is documented for specification completeness and
-        is not intended to be invoked manually.
+        This endpoint is documented for specification completeness and is not intended to be invoked manually.
       tags:
-        - Slack
+        - Keycloak
         - Vacation
         - Jobs
       responses:
         "200":
-          description: Vacation Slack synchronization job executed successfully
+          description: Vacation synchronization job executed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VacationSlackSyncResult'
+                $ref: '#/components/schemas/VacationSyncResult'
         "500":
           description: Internal server error during job execution
           content:
@@ -3075,11 +3130,13 @@ components:
 
     VacationRequestStatuses:
       type: string
-      description: Enum for vacation request status. Slack away synchronization is allowed only for APPROVED vacations.
+      description: Enum for vacation request status.
       enum:
         - PENDING
         - APPROVED
         - DECLINED
+        - ONGOING
+        - COMPLETED
 
     VacationRequest:
       type: object
@@ -3635,7 +3692,7 @@ components:
           enum: [easy, medium, hard]
           example: medium
 
-    VacationSlackSyncResult:
+    VacationSyncResult:
       type: object
       required:
         - processedUsers
@@ -3685,11 +3742,3 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Role"
-
-    SuccessMessage:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Roles updated successfully      
-  
