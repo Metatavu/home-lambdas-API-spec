@@ -2563,6 +2563,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  "/jobs/update-user-vacation-year":
+    post:
+      operationId: updateUserVacationYear
+      summary: Checks users attributes and adds vacation days for current vacation year.
+      description: Timed job triggered in the beginning of the vacation year.
+        If user does not have them, adds vacation days for user for the current vacation year.      
+        This endpoint is not intended to be invoked manually.
+      tags:
+      - Keycloak
+      - vacationDays
+      - Jobs
+      responses:
+        "200":
+          description: Vacation years successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VacationYearResult"
+        "500":
+          description: Internal server error during job execution
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -3678,6 +3703,21 @@ components:
           type: integer
           description: Number of vacations that ended
           example: 2
+    
+    VacationYearResult:
+      type: object
+      required:
+        - processedUsers
+        - createdEntries
+      properties:
+        processedUsers:
+          type: integer
+          description: Number of users whose attributes were checked.
+          example: 20
+        createdEntries:
+          type: integer
+          description: number of users whose attributes were updated
+          example: 15
 
     Role:  
       type: string
