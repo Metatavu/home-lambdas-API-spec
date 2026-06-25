@@ -2567,8 +2567,9 @@ paths:
     post:
       operationId: updateUserVacationYear
       summary: Checks users attributes and adds vacation days for current vacation year.
-      description: Timed job triggered in the beginning of the vacation year.
-        If user does not have them, adds vacation days for user for the current vacation year.      
+      description: |
+        Timed job triggered in the beginning of the vacation year.
+        If user does not have them, adds vacation days for user for the current vacation year.
         This endpoint is not intended to be invoked manually.
       tags:
       - Keycloak
