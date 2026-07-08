@@ -968,7 +968,13 @@ paths:
       tags:
         - Users
       parameters:
-        - $ref: "#/components/parameters/UserId"
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak user ID.
+          schema:
+            type: string
+            format: uuid
       responses:
         "200":
           description: List of roles assigned to the user
@@ -993,7 +999,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref:"#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         
     put:
       operationId: updateUserRoles
@@ -1003,7 +1009,13 @@ paths:
       tags:
         - Users
       parameters:
-          - $ref: "#/components/parameters/UserId"
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak user ID.
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
