@@ -2592,6 +2592,14 @@ components:
         format: uuid  
 
   schemas:
+
+    SuccessMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+
     Error:
       type: object
       description: Error object
@@ -3721,11 +3729,3 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Role"
-
-    SuccessMessage:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
