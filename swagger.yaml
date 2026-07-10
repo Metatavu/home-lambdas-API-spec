@@ -3721,3 +3721,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Role"
+
+    SuccessMessage:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
