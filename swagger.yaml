@@ -512,10 +512,21 @@ paths:
         - name: roles
           in: query
           required: false
+          description: Return software recommended for the specified roles.
           schema:
             type: array
             items:
               $ref: "#/components/schemas/Role"
+        - name: tags
+          in: query
+          required: false
+          description: Filter softwareby tags. Used by the recommendation feature to return software relevant to the user's selected roles.
+          schema:
+            type: array
+            items:
+              type: string   
+          style: form
+          explode: false  
       responses:
         "200":
           description: A list of software entries
@@ -968,7 +979,13 @@ paths:
       tags:
         - Users
       parameters:
-        - $ref: "#/components/parameters/UserId"
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak user ID.
+          schema:
+            type: string
+            format: uuid
       responses:
         "200":
           description: List of roles assigned to the user
@@ -993,7 +1010,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref:"#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         
     put:
       operationId: updateUserRoles
@@ -1003,7 +1020,13 @@ paths:
       tags:
         - Users
       parameters:
-          - $ref: "#/components/parameters/UserId"
+        - name: userId
+          in: path
+          required: true
+          description: The Keycloak user ID.
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -1033,10 +1056,21 @@ paths:
         - name: roles
           in: query
           required: false
+          description: Return questionnaries recommended for the specified roles.
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/Role"  
+              $ref: "#/components/schemas/Role"
+        - name: tags
+          in: query
+          required: false
+          description: Filter questionnaires by tags. Used by the recommendation feature to return questionnaries relevant to the user's selected roles.
+          schema:
+            type: array
+            items: 
+              type: string
+          style: form
+          explode: false    
       responses:
         "200":
           description: A list of questionnaires
@@ -2225,10 +2259,21 @@ paths:
         - name: roles  
           in: query
           required: false
+          description: Return articles recommended for the specified roles.
           schema:
             type: array
             items:
               $ref: "#/components/schemas/Role"
+        - name: tags
+          in: query
+          required: false
+          description: filter articles by tags. Used by  the recommendation feature to return articles relevant to the user's selected roles.
+          schema:
+            type: array
+            items: 
+              type: string
+          style: form
+          explode: false          
       responses:
         "200":
           description: List of articles.
@@ -2606,6 +2651,14 @@ components:
         format: uuid  
 
   schemas:
+
+    SuccessMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+
     Error:
       type: object
       description: Error object
