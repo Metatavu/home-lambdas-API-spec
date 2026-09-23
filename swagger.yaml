@@ -3173,6 +3173,11 @@ components:
       description: Enum for vacation type
       enum:
         - VACATION
+        - PARENTAL_LEAVE
+        - PERSONAL_DAYS
+        - UNPAID_TIME_OFF
+        - SICKNESS
+        - CHILD_SICKNESS
 
     VacationRequestStatuses:
       type: string
